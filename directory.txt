@@ -6,11 +6,7 @@
 │   ├── Algorithm.hpp
 │   ├── Graph.cpp
 │   ├── Graph.hpp
-│   ├── JsonParser.cpp
-│   ├── JsonParser.hpp
 │   ├── main.cpp
-│   ├── QueryProcessor.cpp
-│   ├── QueryProcessor.hpp
 │   └── tests
 │       ├── generate_test.py
 │       ├── run_tests.sh
@@ -20,4 +16,4 @@
 │       └── test_queries.json
 └── sampledriver.cpp
 
-3 directories, 18 files
+3 directories, 14 files
