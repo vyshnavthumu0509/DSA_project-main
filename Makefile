@@ -1,43 +1,49 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -O2 -g
-INCLUDES = -I./Phase1
 
-# --- Directory Definitions ---
+# --- Phase 1 Definitions ---
 PHASE1_DIR = Phase1
-
-# Sources: main.cpp, Graph.cpp, and Algorithm.cpp are all inside Phase1/
+PHASE1_INC = -I./Phase1
 PHASE1_SRC = $(PHASE1_DIR)/main.cpp \
              $(PHASE1_DIR)/Graph.cpp \
              $(PHASE1_DIR)/Algorithm.cpp
-
-# Generate object file names (.o) from source file names (.cpp)
 PHASE1_OBJ = $(PHASE1_SRC:.cpp=.o)
-
-# The final executable name
 PHASE1_TARGET = phase1
 
+# --- Phase 2 Definitions ---
+PHASE2_DIR = Phase2
+PHASE2_INC = -I./Phase2
+PHASE2_SRC = $(PHASE2_DIR)/main.cpp \
+             $(PHASE2_DIR)/Graph.cpp \
+             $(PHASE2_DIR)/Algorithm.cpp
+PHASE2_OBJ = $(PHASE2_SRC:.cpp=.o)
+PHASE2_TARGET = phase2
+
 # --- Targets ---
-.PHONY: all clean
+.PHONY: all clean phase1 phase2
 
-# Default target
-all: phase1
+# Default target builds both
+all: phase1 phase2
 
-# Target to build the phase1 executable
+# --- Phase 1 Build Rules ---
 phase1: $(PHASE1_OBJ)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $(PHASE1_TARGET) $(PHASE1_OBJ)
-	@echo "Build successful! Executable '$(PHASE1_TARGET)' created."
-	@echo "Usage: ./$(PHASE1_TARGET) <graph.json> <queries.json> <output.json>"
+	$(CXX) $(CXXFLAGS) $(PHASE1_INC) -o $(PHASE1_TARGET) $(PHASE1_OBJ)
+	@echo "Build successful: $(PHASE1_TARGET)"
 
-# --- Compilation Rules ---
-
-# Generic rule to compile .cpp files in Phase1 directory to .o files
 $(PHASE1_DIR)/%.o: $(PHASE1_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(PHASE1_INC) -c $< -o $@
+
+# --- Phase 2 Build Rules ---
+phase2: $(PHASE2_OBJ)
+	$(CXX) $(CXXFLAGS) $(PHASE2_INC) -o $(PHASE2_TARGET) $(PHASE2_OBJ)
+	@echo "Build successful: $(PHASE2_TARGET)"
+
+$(PHASE2_DIR)/%.o: $(PHASE2_DIR)/%.cpp
+	$(CXX) $(CXXFLAGS) $(PHASE2_INC) -c $< -o $@
 
 # --- Utilities ---
-
 clean:
-	rm -f $(PHASE1_DIR)/*.o
-	rm -f $(PHASE1_TARGET)
+	rm -f $(PHASE1_DIR)/*.o $(PHASE2_DIR)/*.o
+	rm -f $(PHASE1_TARGET) $(PHASE2_TARGET)
 	rm -f output.json
 	@echo "Clean complete!"

@@ -10,6 +10,9 @@ struct path{
     bool operator >(const path&other) const{
         return cost>other.cost;
     }
+    bool operator <(const path&other) const{
+        return cost<other.cost;
+    }
     bool operator==(const path&other) const {
     return nodes == other.nodes && edges == other.edges;
     }
@@ -34,7 +37,7 @@ class Yen{
     };
     path a_star(int start,int end,const std::set<int>&banned_edges,const std::set<int>&banned_nodes);
     public:
-    Yen(const Graph*g):graph(g){}
+    Yen(const Graph*g):graph(g){buildReverseGraph();}
     std::vector<path> findK_paths(int start,int end,int k);
 
 };
