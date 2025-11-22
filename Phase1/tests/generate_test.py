@@ -143,7 +143,7 @@ def generate_queries(graph, num_queries = 50, filename = "test_queries.json") :
 
     num_nodes = len(graph["nodes"])
     edge_ids = [e["id"] for e in graph["edges"]]
-    pois = ["Restaurant", "Hospital", "School", "Mall", "Park", "Hotel"]
+    pois = ["restaurant", "petrol station", "hospital", "pharmacy", "hotel", "atm"]
 
     events = []
     query_id = 1
