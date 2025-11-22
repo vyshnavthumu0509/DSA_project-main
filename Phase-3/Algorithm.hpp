@@ -16,18 +16,14 @@
 #include <atomic>
 #include <functional>
 
-// Include Phase 2 algorithm for Yen's and Landmarks
-// Ensure this file exists in your directory structure
 #include "../Phase-2/Algorithm.hpp"
 #include "Graph.hpp"
 
-//[cite_start]// Improved Pair Hash to reduce collisions [cite: 1]
 struct PairHash {
     template <class T1, class T2>
     std::size_t operator()(const std::pair<T1, T2>& p) const {
         auto h1 = std::hash<T1>{}(p.first);
         auto h2 = std::hash<T2>{}(p.second);
-        // Boost-like hash combine
         return h1 ^ (h2 + 0x9e3779b9 + (h1 << 6) + (h1 >> 2));
     }
 };
@@ -66,9 +62,6 @@ struct Order {
     bool requires_extended_dwell_time = false;
 };
 
-// ==========================================
-//          GraphAdapter Class
-// ==========================================
 class GraphAdapter {
 private:
     const Graph& lib_graph;
@@ -92,10 +85,6 @@ public:
     void clearCache();
     size_t getCacheSize() const;
 };
-
-// ==========================================
-//           Driver Class
-// ==========================================
 class Driver {
 public:
     int id;
@@ -105,14 +94,13 @@ public:
     int order_count = 0; 
     
     static constexpr int MAX_ORDERS_PER_DRIVER = 10;
-    static constexpr double MAX_ROUTE_TIME = 28800.0;  // Increased to 8 hours for Phase 3 realism
+    static constexpr double MAX_ROUTE_TIME = 28800.0; 
 
     Driver(int driver_id, int depot_node);
 
     void recalculateRouteTimes(GraphAdapter& adapter, bool use_approximate);
     void recalculateRouteTimesFrom(GraphAdapter& adapter, int start_idx, bool use_approximate);
 
-    // Pass 'orders' to check deadlines of existing shipments
     double findBestInsertion(const Order& new_order, GraphAdapter& adapter,
                              const std::vector<Order>& all_orders,
                              int& best_p_idx, int& best_d_idx,
@@ -129,9 +117,6 @@ public:
     double getLoadFactor() const;
 };
 
-// ==========================================
-//           Scheduler Class
-// ==========================================
 class Scheduler {
 public:
     struct Metrics {
@@ -172,7 +157,6 @@ private:
     std::vector<Order> orders;
     std::mutex result_mutex;
     
-    // Removed unused selectBestDriver declaration
 
 public:
     Scheduler(GraphAdapter& ga, int depot, int num_drivers, const Config& cfg);
@@ -186,4 +170,4 @@ public:
     void simulateTrafficDelays(double min_factor = 0.9, double max_factor = 1.5);
 };
 
-#endif // ALGORITHM_HPP
+#endif 
