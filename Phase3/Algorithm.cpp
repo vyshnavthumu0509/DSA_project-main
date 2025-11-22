@@ -58,8 +58,6 @@ void GraphAdapter::precomputeLandmarks() {
 }
 
 void GraphAdapter::precomputeDistanceTable(const std::vector<int>& important_nodes) {
-    std::cout << "Precomputing distance table for " << important_nodes.size() 
-              << " important nodes..." << std::endl;
     
     for (int u : important_nodes) {
         for (int v : important_nodes) {
@@ -72,7 +70,6 @@ void GraphAdapter::precomputeDistanceTable(const std::vector<int>& important_nod
     }
     
     distances_precomputed = true;
-    std::cout << "Distance table precomputation complete." << std::endl;
 }
 
 std::vector<path> GraphAdapter::getKShortestPaths(int u, int v, int k) {
@@ -306,7 +303,6 @@ void Scheduler::loadOrders(std::vector<Order>&& o) {
     }
     std::vector<int> important_nodes(important_set.begin(), important_set.end());
     
-    std::cout << "Precomputing landmarks..." << std::endl;
     adapter.precomputeLandmarks();
     
     if (important_nodes.size() <= 200) {
@@ -326,7 +322,6 @@ void Scheduler::simulateTrafficDelays(double min_factor, double max_factor) {
 }
 
 void Scheduler::run() {
-    std::cout << "Starting Optimized Scheduler (Corrected)..." << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
     
     std::sort(orders.begin(), orders.end(), [](const Order& a, const Order& b) {

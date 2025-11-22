@@ -8,13 +8,15 @@
       "order_id": 101,
       "pickup": 1,
       "dropoff": 2,
+      "priority": 5,
       "deadline": 200.0
     },
     {
       "order_id": 102,
       "pickup": 3,
       "dropoff": 4,
-      "deadline": 0.0
+      "priority": 10,
+      "deadline": 40.0
     }
   ]
 }

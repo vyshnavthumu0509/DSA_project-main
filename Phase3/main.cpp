@@ -128,7 +128,6 @@ int main(int argc, char* argv[]) {
     std::cout << "Loading " << orders.size() << " orders..." << std::endl;
     scheduler.loadOrders(std::move(orders));
 
-    std::cout << "Running optimization..." << std::endl;
     
     auto start_time = std::chrono::high_resolution_clock::now();
     
@@ -141,7 +140,7 @@ int main(int argc, char* argv[]) {
     
     auto end_time = std::chrono::high_resolution_clock::now();
     double duration_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
-    std::cout << "Optimization completed in " << duration_ms << " ms." << std::endl;
+    std::cout << "Completed in " << duration_ms << " ms." << std::endl;
 
     // -------------------------------------------------------
     // 5. Format Output
