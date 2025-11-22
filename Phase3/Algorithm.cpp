@@ -2,6 +2,7 @@
 #include <random>
 #include <chrono>
 #include <unordered_map>
+#include <algorithm>
 
 // ==========================================
 //       GraphAdapter Implementation
@@ -89,8 +90,21 @@ size_t GraphAdapter::getCacheSize() const { return distance_cache.size(); }
 //         Driver Implementation
 // ==========================================
 
+// Helper: Node Dwell Lookup
+double getNodeDwellTime(const Graph& g, int node_id) {
+    const Node* n = g.getNode(node_id);
+    if (!n) return 0.0;
+    for (const auto& poi : n->pois) {
+        if (poi == "Mall") return Config::DWELL_MALL;
+        if (poi == "Hospital") return 300.0;
+        if (poi == "Apartment") return Config::DWELL_APT;
+    }
+    return 0.0;
+}
+
 Driver::Driver(int driver_id, int depot_node)
     : id(driver_id), current_time(0.0), order_count(0) {
+    // Initialize depot stop with defaults
     route.push_back({depot_node, -1, false, 0.0});
 }
 
@@ -114,35 +128,53 @@ void Driver::recalculateRouteTimesFrom(GraphAdapter& adapter, int start_idx, boo
         }
         if (i >= start_idx - 1) break; 
     }
-    
+
     for (size_t i = 1; i < route.size(); ++i) {
         if (i >= (size_t)start_idx) {
-            int u = route[i - 1].node_id;
-            int v = route[i].node_id;
+            double arrival = 0.0;
             
-            double travel_time = adapter.getCachedOrCompute(u, v, use_approximate);
-            double arrival = route[i - 1].arrival_time + travel_time;
+            // LOGIC 1: Parallel Prep / Same Node Travel
+            if (route[i].node_id == route[i-1].node_id) {
+                // No travel time needed if at same node
+                arrival = route[i-1].arrival_time;
+            } else {
+                double travel = adapter.getCachedOrCompute(route[i-1].node_id, route[i].node_id, use_approximate);
+                arrival = route[i-1].arrival_time + travel;
+            }
+
+            // LOGIC 2: Gated Entry (Once Per Visit Cluster Logic)
+            if (route[i].requires_extended_dwell) {
+                bool already_inside = false;
+                // Check if previous node was same ID and also gated
+                if (i > 0 && route[i-1].node_id == route[i].node_id && route[i-1].requires_extended_dwell) {
+                    already_inside = true;
+                }
+                if (!already_inside) {
+                    arrival += Config::GATED_DELAY;
+                }
+            }
             
-            if (!route[i].is_pickup) {
-                int oid = route[i].order_id;
-                auto it = pickup_times.find(oid);
-                if (it != pickup_times.end()) {
-                    arrival = std::max(arrival, it->second);
+            // LOGIC 3: Node Dwell (Elevator/Walking time)
+            arrival += route[i].node_dwell_time;
+
+            // LOGIC 4: Wait for Food (Absolute Ready Time)
+            if (route[i].is_pickup) {
+                // If we arrive at 10:00 but food ready at 10:15, we wait.
+                arrival = std::max(arrival, route[i].ready_time);
+                pickup_times[route[i].order_id] = arrival;
+            } else {
+                // Dropoff must be after pickup
+                if (pickup_times.count(route[i].order_id)) {
+                    arrival = std::max(arrival, pickup_times[route[i].order_id]);
                 }
             }
             
             route[i].arrival_time = arrival;
-            
-            if (route[i].is_pickup) {
-                pickup_times[route[i].order_id] = route[i].arrival_time;
-            }
         } else {
-             if (route[i].is_pickup) {
-                pickup_times[route[i].order_id] = route[i].arrival_time;
-            }
+            // Forward pass for map consistency (Fix: ensure map is updated even if skipping calc)
+            if (route[i].is_pickup) pickup_times[route[i].order_id] = route[i].arrival_time;
         }
     }
-    
     current_time = route.back().arrival_time;
 }
 
@@ -157,9 +189,25 @@ double Driver::findBestInsertion(const Order& new_order, GraphAdapter& adapter,
                                  const std::vector<Order>& all_orders,
                                  int& best_p_idx, int& best_d_idx,
                                  bool use_approximate, double current_best) const {
-    const int L = route.size();
-    double min_cost_increase = current_best; 
     
+    // =========================================================
+    // 1. BATCH COMPATIBILITY CHECK
+    // =========================================================
+    // If we are picking up at a node where we already have a pickup,
+    // ensure the food readiness times are close enough (e.g., within 15 mins).
+    for (const auto& stop : route) {
+        if (stop.is_pickup && stop.node_id == new_order.pickup_node) {
+            // stop.ready_time is cached in RouteStop
+            if (std::abs(stop.ready_time - new_order.ready_time) > Config::BATCH_THRESHOLD) {
+                return std::numeric_limits<double>::infinity(); // Reject: Incompatible batch
+            }
+        }
+    }
+
+    const int L = route.size();
+    double min_weighted_cost = current_best; 
+    
+    // Calculate current total completion time (baseline)
     double current_total_time = 0;
     for(const auto& s : route) {
         if(!s.is_pickup && s.order_id != -1) current_total_time += s.arrival_time;
@@ -168,79 +216,127 @@ double Driver::findBestInsertion(const Order& new_order, GraphAdapter& adapter,
     best_p_idx = -1;
     best_d_idx = -1;
 
+    // =========================================================
+    // 2. INSERTION LOOPS (Try every position)
+    // =========================================================
     for (int p_idx = 1; p_idx <= L; ++p_idx) {
-        // Pruning
+        // Pruning: Fast check if travel to pickup alone exceeds deadline
         double dist_to_pickup = adapter.getCachedOrCompute(route[p_idx - 1].node_id, new_order.pickup_node, use_approximate);
-        double estimated_arrival = route[p_idx - 1].arrival_time + dist_to_pickup;
-        if (estimated_arrival > new_order.deadline) continue;
+        if (route[p_idx-1].arrival_time + dist_to_pickup > new_order.deadline) continue;
 
         for (int d_idx = p_idx + 1; d_idx <= L + 1; ++d_idx) {
             std::vector<RouteStop> temp_route = route;
             
-            temp_route.insert(temp_route.begin() + p_idx,
-                {new_order.pickup_node, new_order.id, true, 0.0});
+            // Prepare metadata for new stops
+            double dropoff_dwell = getNodeDwellTime(adapter.getLibGraph(), new_order.dropoff_node);
             
+            // Insert Pickup (Cache ready_time for simulation)
+            temp_route.insert(temp_route.begin() + p_idx,
+                {new_order.pickup_node, new_order.id, true, 0.0, false, 0.0, new_order.ready_time});
+            
+            // Insert Dropoff (Cache dwell flags)
             temp_route.insert(temp_route.begin() + d_idx,
-                {new_order.dropoff_node, new_order.id, false, 0.0});
+                {new_order.dropoff_node, new_order.id, false, 0.0, new_order.requires_extended_dwell_time, dropoff_dwell, 0.0});
 
+            // =========================================================
+            // 3. ROUTE SIMULATION (Must match recalculateRouteTimesFrom)
+            // =========================================================
             std::unordered_map<int, double> temp_pickup_times;
             bool feasible = true;
             double new_sum_completion_times = 0;
-            temp_route[0].arrival_time = 0.0;
+            temp_route[0].arrival_time = 0.0; // Depot start
 
             for (size_t i = 1; i < temp_route.size(); ++i) {
-                int u = temp_route[i-1].node_id;
-                int v = temp_route[i].node_id;
-
-                double t_time = adapter.getCachedOrCompute(u, v, use_approximate);
-                if (t_time >= INF) { feasible = false; break; }
-
-                double arr = temp_route[i-1].arrival_time + t_time;
-
-                if (temp_route[i].is_pickup && temp_route[i].order_id == new_order.id) {
-                    arr = std::max(arr, new_order.prep_time);
+                double arrival = 0.0;
+                
+                // --- A. Travel Time (Parallel Prep Aware) ---
+                if (temp_route[i].node_id == temp_route[i-1].node_id) {
+                    // Same node: Instant travel (Parallel operations)
+                    arrival = temp_route[i-1].arrival_time;
+                } else {
+                    double t = adapter.getCachedOrCompute(temp_route[i-1].node_id, temp_route[i].node_id, use_approximate);
+                    if (t >= std::numeric_limits<double>::infinity()) { feasible = false; break; }
+                    arrival = temp_route[i-1].arrival_time + t;
                 }
 
-                if (!temp_route[i].is_pickup && temp_route[i].order_id != -1) {
-                    int oid = temp_route[i].order_id;
-                    if (temp_pickup_times.count(oid)) {
-                        arr = std::max(arr, temp_pickup_times[oid]);
-                    } else {
-                         feasible = false; break;
+                // --- B. Gated Community Delay (Cluster Logic) ---
+                if (temp_route[i].requires_extended_dwell) {
+                    bool already_inside = (i > 0 && temp_route[i-1].node_id == temp_route[i].node_id && temp_route[i-1].requires_extended_dwell);
+                    if (!already_inside) {
+                        arrival += Config::GATED_DELAY; // Pay penalty only on entry
                     }
                 }
+                
+                // --- C. Node Dwell (Always Pay) ---
+                arrival += temp_route[i].node_dwell_time;
 
-                temp_route[i].arrival_time = arr;
-
+                // --- D. Pickup / Dropoff Logic ---
                 if (temp_route[i].is_pickup) {
-                    temp_pickup_times[temp_route[i].order_id] = arr;
-                }
-
-                if (!temp_route[i].is_pickup && temp_route[i].order_id != -1) {
-                    double deadline = (temp_route[i].order_id == new_order.id) ? new_order.deadline : INF;
-                    if (deadline == INF) {
+                    // Wait for food to be ready (Absolute time)
+                    arrival = std::max(arrival, temp_route[i].ready_time);
+                    temp_pickup_times[temp_route[i].order_id] = arrival;
+                } else {
+                    // Dropoff must happen after pickup
+                    if (temp_pickup_times.count(temp_route[i].order_id)) {
+                        arrival = std::max(arrival, temp_pickup_times[temp_route[i].order_id]);
+                    } else {
+                        // Safety check (shouldn't happen in valid topology)
+                        feasible = false; break;
+                    }
+                    
+                    // --- E. Deadline Validation ---
+                    double deadline = std::numeric_limits<double>::infinity();
+                    
+                    if (temp_route[i].order_id == new_order.id) {
+                        deadline = new_order.deadline;
+                    } else {
                         const Order* ex = getOrderById(all_orders, temp_route[i].order_id);
                         if (ex) deadline = ex->deadline;
                     }
 
-                    if (arr > deadline) { feasible = false; break; }
-                    new_sum_completion_times += arr;
+                    if (arrival > deadline) { feasible = false; break; }
+                    
+                    // Accumulate metric
+                    new_sum_completion_times += arrival;
                 }
+                
+                temp_route[i].arrival_time = arrival;
             }
 
             if (!feasible) continue;
 
-            double cost_increase = new_sum_completion_times - current_total_time;
+            // =========================================================
+            // 4. ROBUST COST FUNCTION
+            // =========================================================
+            
+            // 1. Effort: How much EXTRA time does this add to the driver's day?
+            double time_delta = new_sum_completion_times - current_total_time;
+            
+            // 2. Fatigue: Tired drivers perceive effort as higher cost
+            double fatigue_ratio = std::min(this->current_time / Config::MAX_SHIFT_SECONDS, 1.0);
+            double fatigue_penalty = 1.0 + (fatigue_ratio * fatigue_ratio); // Quadratic scale (1.0x to 2.0x)
+            
+            double effort_cost = time_delta * fatigue_penalty;
 
-            if (cost_increase < min_cost_increase) {
-                min_cost_increase = cost_increase;
+            // 3. Reward: High price orders reduce the cost (making it negative/profitable)
+            double reward = new_order.price * Config::PRICE_WEIGHT;
+            
+            double final_cost = effort_cost - reward;
+            
+            // 4. Safety Clamp: Cap profit influence
+            if (final_cost < -Config::MAX_NEG_REWARD) {
+                final_cost = -Config::MAX_NEG_REWARD;
+            }
+
+            // Minimize the cost
+            if (final_cost < min_weighted_cost) {
+                min_weighted_cost = final_cost;
                 best_p_idx = p_idx;
                 best_d_idx = d_idx;
             }
         }
     }
-
-    return min_cost_increase;
+    return min_weighted_cost;
 }
 
 double Driver::findBestInsertionLimited(const Order& new_order, GraphAdapter& adapter,
@@ -250,12 +346,16 @@ double Driver::findBestInsertionLimited(const Order& new_order, GraphAdapter& ad
     return findBestInsertion(new_order, adapter, all_orders, best_p_idx, best_d_idx, use_approximate);
 }
 
-void Driver::commitInsertion(const Order& new_order, int p_idx, int d_idx) {
-    route.insert(route.begin() + p_idx,
-        {new_order.pickup_node, new_order.id, true, 0.0});
+void Driver::commitInsertion(const Order& new_order, int p_idx, int d_idx, const GraphAdapter& adapter) {
+    double node_dwell = getNodeDwellTime(adapter.getLibGraph(), new_order.dropoff_node);
     
+    // Insert Pickup: Save ready_time
+    route.insert(route.begin() + p_idx,
+        {new_order.pickup_node, new_order.id, true, 0.0, false, 0.0, new_order.ready_time});
+    
+    // Insert Dropoff: Save dwell flags
     route.insert(route.begin() + d_idx,
-        {new_order.dropoff_node, new_order.id, false, 0.0});
+        {new_order.dropoff_node, new_order.id, false, 0.0, new_order.requires_extended_dwell_time, node_dwell, 0.0});
         
     orders_being_carried.insert(new_order.id);
     order_count++;
@@ -295,6 +395,14 @@ void Scheduler::setConfig(const Config& cfg) { config = cfg; }
 void Scheduler::loadOrders(std::vector<Order>&& o) {
     orders = std::move(o);
     
+    // FIX: Ensure ready_time is properly populated from prep_time
+    // because Batch Logic relies on ready_time.
+    for (auto& order : orders) {
+        if (order.ready_time == 0.0 && order.prep_time > 0.0) {
+            order.ready_time = order.prep_time;
+        }
+    }
+
     std::set<int> important_set;
     important_set.insert(depot_node);
     for (const auto& order : orders) {
@@ -324,8 +432,9 @@ void Scheduler::simulateTrafficDelays(double min_factor, double max_factor) {
 void Scheduler::run() {
     auto start = std::chrono::high_resolution_clock::now();
     
+    // FIX: High Priority first means (A.priority > B.priority)
     std::sort(orders.begin(), orders.end(), [](const Order& a, const Order& b) {
-        if (std::abs(a.priority - b.priority) > 1e-6) return a.priority < b.priority;
+        if (std::abs(a.priority - b.priority) > 1e-6) return a.priority > b.priority; 
         return a.deadline < b.deadline;
     });
     
@@ -379,10 +488,9 @@ void Scheduler::run() {
             int d_id = std::get<2>(entry);
             if (d_id == best_driver_idx) {
                 Driver& assigned = drivers[d_id];
-                assigned.commitInsertion(current_order, best_p, best_d);
+                assigned.commitInsertion(current_order, best_p, best_d, adapter);
                 assigned.recalculateRouteTimesFrom(adapter, best_p, false);
                 
-                // --- BUG FIX START ---
                 // Update completion times for ALL orders carried by this driver
                 for (const auto& stop : assigned.route) {
                     if (!stop.is_pickup && stop.order_id != -1) {
@@ -391,7 +499,6 @@ void Scheduler::run() {
                         }
                     }
                 }
-                // --- BUG FIX END ---
 
                 orders_completed++;
                 driver_heap.push({assigned.current_time, assigned.getLoadFactor(), d_id});

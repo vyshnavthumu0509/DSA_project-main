@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "id": "test_fail",
+    "nodes": 2,
+    "description": "Long road"
+  },
+  "nodes": [
+    {"id": 0, "lat": 0.0, "lon": 0.0},
+    {"id": 1, "lat": 0.0, "lon": 0.5}
+  ],
+  "edges": [
+    { "id": 1, "u": 0, "v": 1, "length": 1000.0, "oneway": false }
+  ]
+}

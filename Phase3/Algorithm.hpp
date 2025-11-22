@@ -31,12 +31,26 @@ struct PairHash {
         return h1 ^ (h2 + 0x9e3779b9 + (h1 << 6) + (h1 >> 2));
     }
 };
-
+namespace Config {
+    constexpr double BATCH_THRESHOLD = 900.0;     // 15 mins
+    constexpr double GATED_DELAY = 300.0;         // 5 mins
+    constexpr double PRICE_WEIGHT = 30.0;         // $1 = 30s time
+    constexpr double MAX_NEG_REWARD = 7200.0;     // Cap profit
+    constexpr double MAX_SHIFT_SECONDS = 28800.0; // 8 hours
+    
+    // Node Dwell Times
+    constexpr double DWELL_MALL = 180.0;
+    constexpr double DWELL_APT = 60.0;
+    constexpr double DWELL_HOTEL = 120.0;
+}
 struct RouteStop {
     int node_id;
     int order_id;  // -1 for depot
     bool is_pickup;
     double arrival_time;
+ bool requires_extended_dwell = false; 
+    double node_dwell_time = 0.0;
+    double ready_time = 0.0;
 };
 
 struct Order {
@@ -47,6 +61,9 @@ struct Order {
     double priority = 0.0;        // Lower value = Higher priority
     double prep_time = 0.0;       
     double deadline = std::numeric_limits<double>::infinity(); 
+ double ready_time = 0.0;  // Absolute time order is ready
+    double price = 0.0;           
+    bool requires_extended_dwell_time = false;
 };
 
 // ==========================================
@@ -106,7 +123,7 @@ public:
                                     int& best_p_idx, int& best_d_idx,
                                     bool use_approximate, int max_candidates = 5) const;
 
-    void commitInsertion(const Order& new_order, int p_idx, int d_idx);
+    void commitInsertion(const Order& new_order, int p_idx, int d_idx,const GraphAdapter& adapter);
     std::vector<int> getFinalRouteNodes() const;
     bool canAcceptMore() const;
     double getLoadFactor() const;

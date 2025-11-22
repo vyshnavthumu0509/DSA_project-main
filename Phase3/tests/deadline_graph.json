@@ -1,20 +1,10 @@
 {
-  "meta": {
-    "id": "phase3_deadline",
-    "nodes": 5,
-    "description": "Graph to test priority and deadlines"
-  },
+  "meta": { "id": "test_fatigue", "nodes": 2, "description": "Long haul" },
   "nodes": [
-    {"id": 0, "lat": 0.0, "lon": 0.0, "pois": ["Depot"]},
-    {"id": 1, "lat": 0.0, "lon": 0.001, "pois": []},
-    {"id": 2, "lat": 0.0, "lon": 0.002, "pois": []},
-    {"id": 3, "lat": 0.0, "lon": 0.003, "pois": []},
-    {"id": 4, "lat": 0.0, "lon": 0.004, "pois": []}
+    {"id": 0, "lat": 0.0, "lon": 0.0},
+    {"id": 1, "lat": 1.0, "lon": 1.0}
   ],
   "edges": [
-    { "id": 1, "u": 0, "v": 1, "length": 10.0, "oneway": false },
-    { "id": 2, "u": 1, "v": 2, "length": 10.0, "oneway": false },
-    { "id": 3, "u": 0, "v": 3, "length": 15.0, "oneway": false },
-    { "id": 4, "u": 3, "v": 4, "length": 10.0, "oneway": false }
+    { "id": 1, "u": 0, "v": 1, "length": 10000.0, "oneway": false }
   ]
 }

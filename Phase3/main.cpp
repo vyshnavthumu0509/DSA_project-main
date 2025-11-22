@@ -3,6 +3,7 @@
 #include <chrono>
 #include <vector>
 #include <string>
+#include <limits>
 #include <nlohmann/json.hpp>
 
 // Include Phase 3 specific headers
@@ -96,17 +97,30 @@ int main(int argc, char* argv[]) {
             order.pickup_node = o["pickup"];
             order.dropoff_node = o["dropoff"];
             
-            // --- FIX START: Parse Priority and Deadline ---
-            // Default priority to 0 if missing (higher value = lower priority)
-            order.priority = o.value("priority", 0.0); 
+            // --- FIX: PARSE NEW PHASE 3 FIELDS ---
             
-            // Handle deadline (default to infinity if missing)
+            // 1. Deadline (Default Infinity)
             if (o.contains("deadline")) {
                 order.deadline = o["deadline"];
             } else {
                 order.deadline = std::numeric_limits<double>::infinity();
             }
-            // --- FIX END ---
+
+            // 2. Prep Time / Ready Time (Crucial for Batching)
+            if (o.contains("prep_time")) {
+                order.prep_time = o["prep_time"];
+                order.ready_time = o["prep_time"]; // Sync ready_time
+            }
+
+            // 3. Priority & Price (Crucial for Sorting/Cost)
+            order.priority = o.value("priority", 0.0);
+            order.price = o.value("price", 0.0);
+
+            // 4. Gated Community Flag
+            if (o.contains("requires_extended_dwell_time")) {
+                order.requires_extended_dwell_time = o["requires_extended_dwell_time"];
+            }
+            // -------------------------------------
 
             orders.push_back(order);
         }
@@ -115,19 +129,17 @@ int main(int argc, char* argv[]) {
     // -------------------------------------------------------
     // 4. Run Scheduling Algorithm
     // -------------------------------------------------------
-    // Initialize Adapter
     GraphAdapter adapter(graph);
 
-    // Initialize Scheduler Configuration
     Scheduler::Config scheduler_config;
-    scheduler_config.use_approximate_for_eval = true; // Use approximation for speed
+    scheduler_config.use_approximate_for_eval = true;
     
-    // Initialize Scheduler with Config object
     Scheduler scheduler(adapter, depot_node, num_drivers, scheduler_config);
 
     std::cout << "Loading " << orders.size() << " orders..." << std::endl;
     scheduler.loadOrders(std::move(orders));
 
+    std::cout << "Running optimization..." << std::endl;
     
     auto start_time = std::chrono::high_resolution_clock::now();
     
@@ -140,7 +152,7 @@ int main(int argc, char* argv[]) {
     
     auto end_time = std::chrono::high_resolution_clock::now();
     double duration_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
-    std::cout << "Completed in " << duration_ms << " ms." << std::endl;
+    std::cout << "Optimization completed in " << duration_ms << " ms." << std::endl;
 
     // -------------------------------------------------------
     // 5. Format Output
@@ -149,7 +161,6 @@ int main(int argc, char* argv[]) {
     
     json final_output;
     
-    // assignments
     json assignments_arr = json::array();
     for (const auto& assign : sched_result.assignments) {
         json a_json;
@@ -160,9 +171,12 @@ int main(int argc, char* argv[]) {
     }
     final_output["assignments"] = assignments_arr;
 
-    // metrics
     json metrics_json;
     metrics_json["total_delivery_time_s"] = sched_result.metrics.total_delivery_time_s;
+    metrics_json["max_delivery_time_s"] = sched_result.metrics.max_delivery_time_s;
+    metrics_json["orders_completed"] = sched_result.metrics.orders_completed;
+    metrics_json["orders_failed"] = sched_result.metrics.orders_failed;
+    
     final_output["metrics"] = metrics_json;
 
     // -------------------------------------------------------
