@@ -1,0 +1,13 @@
+{
+  "depot_node": 0,
+  "fleet": { "num_delievery_guys": 1 },
+  "orders": [
+    {
+      "order_id": 401,
+      "pickup": 0,
+      "dropoff": 1,
+      "priority": 5,
+      "deadline": 500.0
+    }
+  ]
+}

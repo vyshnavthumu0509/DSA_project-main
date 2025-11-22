@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "id": "phase2_overlap_check",
+    "nodes": 5,
+    "description": "Graph to test heuristic penalties"
+  },
+  "nodes": [
+    {"id": 0, "lat": 0.0, "lon": 0.0, "pois": []},
+    {"id": 1, "lat": 0.0, "lon": 0.1, "pois": []},
+    {"id": 2, "lat": 0.1, "lon": 0.0, "pois": []},
+    {"id": 3, "lat": 0.0, "lon": 0.2, "pois": []},
+    {"id": 4, "lat": -0.1, "lon": 0.05, "pois": []}
+  ],
+  "edges": [
+    { "id": 101, "u": 0, "v": 1, "length": 10.0, "oneway": true },
+    { "id": 102, "u": 1, "v": 3, "length": 10.0, "oneway": true },
+    
+    { "id": 201, "u": 0, "v": 2, "length": 11.0, "oneway": true },
+    { "id": 202, "u": 2, "v": 3, "length": 11.0, "oneway": true },
+
+    { "id": 301, "u": 0, "v": 4, "length": 5.0, "oneway": true },
+    { "id": 302, "u": 4, "v": 1, "length": 6.0, "oneway": true }
+  ]
+}

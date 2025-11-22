@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "id": "phase2_simple_queries"
+  },
+  "events": [
+    {
+      "id": 1,
+      "type": "k_shortest_paths",
+      "source": 0,
+      "target": 5,
+      "k": 3
+    },
+    {
+      "id": 2,
+      "type": "k_shortest_paths_heuristic",
+      "source": 0,
+      "target": 5,
+      "k": 2,
+      "overlap_threshold": 20
+    },
+    {
+      "id": 3,
+      "type": "approx_shortest_path",
+      "time_budget_ms": 100,
+      "acceptable_error_pct": 10.0,
+      "queries": [
+        { "source": 0, "target": 5 },
+        { "source": 0, "target": 3 }
+      ]
+    }
+  ]
+}

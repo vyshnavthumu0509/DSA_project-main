@@ -1,0 +1,21 @@
+{
+  "meta": { "id": "q_overlap" },
+  "events": [
+    {
+      "id": 1,
+      "type": "k_shortest_paths",
+      "source": 0,
+      "target": 3,
+      "k": 3,
+      "mode": "distance"
+    },
+    {
+      "id": 2,
+      "type": "k_shortest_paths_heuristic",
+      "source": 0,
+      "target": 3,
+      "k": 3,
+      "overlap_threshold": 40
+    }
+  ]
+}

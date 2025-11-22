@@ -1,0 +1,25 @@
+{
+  "meta": {"id": "q_river"},
+  "events": [
+    {
+      "id": 1, "type": "knn", "poi": "Cafe", "k": 1,
+      "query_point": {"lat": 0.0, "lon": 0.0}, "metric": "euclidean"
+    },
+    {
+      "id": 2, "type": "knn", "poi": "Cafe", "k": 1,
+      "query_point": {"lat": 0.0, "lon": 0.0}, "metric": "shortest_path"
+    },
+    {
+      "id": 3, "type": "remove_edge", "edge_id": 902
+    },
+    {
+      "id": 4, "type": "shortest_path", "source": 0, "target": 2, "mode": "distance"
+    },
+    {
+      "id": 5, "type": "modify_edge", "edge_id": 902, "patch": {"length": 2000.0}
+    },
+    {
+      "id": 6, "type": "shortest_path", "source": 0, "target": 2, "mode": "distance"
+    }
+  ]
+}

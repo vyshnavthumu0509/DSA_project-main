@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "id": "phase2_cycle_check",
+    "nodes": 4,
+    "description": "Graph with a cycle (0-1-2-0) to test loop avoidance"
+  },
+  "nodes": [
+    {"id": 0, "lat": 0.0, "lon": 0.0, "pois": []},
+    {"id": 1, "lat": 0.1, "lon": 0.0, "pois": []},
+    {"id": 2, "lat": 0.1, "lon": 0.1, "pois": []},
+    {"id": 3, "lat": 0.2, "lon": 0.0, "pois": []}
+  ],
+  "edges": [
+    { "id": 1, "u": 0, "v": 1, "length": 10.0, "oneway": true },
+    { "id": 2, "u": 1, "v": 2, "length": 10.0, "oneway": true },
+    { "id": 3, "u": 2, "v": 0, "length": 10.0, "oneway": true },
+    { "id": 4, "u": 1, "v": 3, "length": 100.0, "oneway": true },
+    { "id": 5, "u": 2, "v": 3, "length": 100.0, "oneway": true }
+  ]
+}

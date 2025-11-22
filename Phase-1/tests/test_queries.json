@@ -1,0 +1,2303 @@
+{
+  "meta": {
+    "id": "test_queries_1"
+  },
+  "events": [
+    {
+      "id": 1,
+      "type": "shortest_path",
+      "source": 9,
+      "target": 43,
+      "mode": "time"
+    },
+    {
+      "type": "knn",
+      "id": 2,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.029777802279686,
+        "lon": 72.93199916038971
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 3,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.257443008012828,
+        "lon": 73.00756673398453
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 4,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.103238981855952,
+        "lon": 72.92181159325759
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 5,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.003865557050403,
+        "lon": 72.97047612482716
+      },
+      "k": 7,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 6,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.097116993092083,
+        "lon": 72.90910252034877
+      },
+      "k": 9,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 7,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.27970754312453,
+        "lon": 72.88952759837505
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 8,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.25032378270433,
+        "lon": 72.94634329499208
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 9,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.084849011440102,
+        "lon": 72.8563432748648
+      },
+      "k": 4,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 10,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.181119541540127,
+        "lon": 72.84279636579822
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 11,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.150667745810793,
+        "lon": 72.90409331595204
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1091,
+      "patch": {
+        "length": 118.02188990300533
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1092,
+      "patch": {
+        "length": 931.1122528886011
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1094,
+      "patch": {
+        "length": 363.85849348841003
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1032,
+      "patch": {
+        "length": 852.7951355250119
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1032,
+      "patch": {
+        "length": 226.482569130883
+      }
+    },
+    {
+      "id": 12,
+      "type": "shortest_path",
+      "source": 20,
+      "target": 30,
+      "mode": "time",
+      "constraints": {}
+    },
+    {
+      "type": "knn",
+      "id": 13,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.049815899583542,
+        "lon": 72.98668435925597
+      },
+      "k": 8,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 14,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.236376423662954,
+        "lon": 73.00124949764867
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 15,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.08050305065379,
+        "lon": 72.84055209113274
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 16,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.123861555940824,
+        "lon": 72.88564618491917
+      },
+      "k": 9,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 17,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.02549880052635,
+        "lon": 72.81421598742848
+      },
+      "k": 7,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 18,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.08932917238089,
+        "lon": 72.98518958534156
+      },
+      "k": 10,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 19,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.016906166915977,
+        "lon": 72.99022830800612
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 20,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.14730225853505,
+        "lon": 72.83620317334949
+      },
+      "k": 9,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 21,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.10192863678528,
+        "lon": 72.9040155575069
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 22,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.25032474954454,
+        "lon": 72.9456255466705
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1043,
+      "patch": {
+        "length": 243.01142517918132
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1134,
+      "patch": {
+        "length": 358.3172196404263
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1028,
+      "patch": {
+        "length": 766.5615332987437
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1047,
+      "patch": {
+        "length": 679.7922999997829
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1075,
+      "patch": {
+        "length": 313.78113800743745
+      }
+    },
+    {
+      "id": 23,
+      "type": "shortest_path",
+      "source": 26,
+      "target": 25,
+      "mode": "time",
+      "constraints": {
+        "forbidden_nodes": [
+          44
+        ]
+      }
+    },
+    {
+      "type": "knn",
+      "id": 24,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.23389549855799,
+        "lon": 72.98514650232164
+      },
+      "k": 7,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 25,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.015724920231342,
+        "lon": 72.82841723938515
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 26,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.181826996685707,
+        "lon": 72.99604966450595
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 27,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.18054199330883,
+        "lon": 72.90514871208865
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 28,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.038142282508094,
+        "lon": 72.8598081091497
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 29,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.17195365857408,
+        "lon": 72.90831991885243
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 30,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.25162111990193,
+        "lon": 72.81454262114583
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 31,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.25820422213833,
+        "lon": 72.9940156687833
+      },
+      "k": 8,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 32,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.00307499968041,
+        "lon": 72.81650931992752
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 33,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.226508570063192,
+        "lon": 72.99758888940225
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1051,
+      "patch": {
+        "length": 827.3695309303056
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1041,
+      "patch": {
+        "length": 832.9768326972653
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1040,
+      "patch": {
+        "length": 144.0763675048955
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1141,
+      "patch": {
+        "length": 710.176263339724
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1085,
+      "patch": {
+        "length": 642.1318708454709
+      }
+    },
+    {
+      "id": 34,
+      "type": "shortest_path",
+      "source": 28,
+      "target": 31,
+      "mode": "time"
+    },
+    {
+      "type": "knn",
+      "id": 35,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.26504907040081,
+        "lon": 72.92014354928955
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 36,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.248916414795634,
+        "lon": 72.92084088121926
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 37,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.037723053282313,
+        "lon": 72.91773275493674
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 38,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 18.99334229671795,
+        "lon": 72.8411379305111
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 39,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.27545965595735,
+        "lon": 72.9375619389878
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 40,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.164219567410512,
+        "lon": 72.8009306685421
+      },
+      "k": 4,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 41,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.140682924226844,
+        "lon": 72.80146035213103
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 42,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.258584367395848,
+        "lon": 72.91765391180117
+      },
+      "k": 8,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 43,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.00867821465932,
+        "lon": 72.98795838858287
+      },
+      "k": 4,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 44,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.122950462894405,
+        "lon": 72.99970619922686
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1013,
+      "patch": {
+        "length": 316.56099949119596
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1043,
+      "patch": {
+        "length": 672.4404124349754
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1135,
+      "patch": {
+        "length": 216.54153479381034
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1124,
+      "patch": {
+        "length": 918.4771570412753
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1055,
+      "patch": {
+        "length": 959.7624221699785
+      }
+    },
+    {
+      "id": 45,
+      "type": "shortest_path",
+      "source": 30,
+      "target": 0,
+      "mode": "distance"
+    },
+    {
+      "type": "knn",
+      "id": 46,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.25307677278769,
+        "lon": 72.99242325255291
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 47,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.108869962198824,
+        "lon": 72.90931142207592
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 48,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.01290371691659,
+        "lon": 72.98426017269601
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 49,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.25735414542383,
+        "lon": 72.95011710036492
+      },
+      "k": 9,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 50,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.09843153518955,
+        "lon": 72.91153218834458
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 51,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.105338347674742,
+        "lon": 72.9039633116767
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 52,
+      "poi": "School",
+      "query_point": {
+        "lat": 18.99376402601647,
+        "lon": 72.81985472400312
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 53,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.119419724400856,
+        "lon": 72.88488758628661
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 54,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.260146263382854,
+        "lon": 72.92827370860842
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 55,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.03330811568694,
+        "lon": 72.9888278689709
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1043,
+      "patch": {
+        "length": 205.91853293902295
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1072,
+      "patch": {
+        "length": 954.9585834156328
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1118,
+      "patch": {
+        "length": 853.1366495617328
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1116,
+      "patch": {
+        "length": 852.7732979836786
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1053,
+      "patch": {
+        "length": 122.76105803938843
+      }
+    },
+    {
+      "id": 56,
+      "type": "shortest_path",
+      "source": 17,
+      "target": 47,
+      "mode": "distance",
+      "constraints": {}
+    },
+    {
+      "type": "knn",
+      "id": 57,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.263459424603642,
+        "lon": 72.92099177336159
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 58,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.09387524170163,
+        "lon": 72.9049806819029
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 59,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.16346128925486,
+        "lon": 72.80310031482145
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 60,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.25040290582849,
+        "lon": 72.80952143567798
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 61,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.256561367133415,
+        "lon": 72.92156549344253
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 62,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.173350214270872,
+        "lon": 72.81303975394992
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 63,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.120660174515645,
+        "lon": 72.8143435115911
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 64,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.265076034972907,
+        "lon": 72.80340834405695
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 65,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.253296776243634,
+        "lon": 72.94514715970134
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 66,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.179203529711415,
+        "lon": 72.89179497526622
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1039,
+      "patch": {
+        "length": 864.730571582167
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1148,
+      "patch": {
+        "length": 683.1113982118327
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1116,
+      "patch": {
+        "length": 808.7512425947418
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1035,
+      "patch": {
+        "length": 491.1082169100519
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1104,
+      "patch": {
+        "length": 953.679539796699
+      }
+    },
+    {
+      "id": 67,
+      "type": "shortest_path",
+      "source": 21,
+      "target": 12,
+      "mode": "distance"
+    },
+    {
+      "type": "knn",
+      "id": 68,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.164406629901897,
+        "lon": 72.91441575259967
+      },
+      "k": 4,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 69,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.277443963531525,
+        "lon": 72.8862549666323
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 70,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.13720942049691,
+        "lon": 72.80592336192773
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 71,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.096488826916193,
+        "lon": 72.9853625405768
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 72,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.017745057202536,
+        "lon": 72.95452727769776
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 73,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.149964650090027,
+        "lon": 72.89626871943504
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 74,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.058155099696755,
+        "lon": 72.85257959409324
+      },
+      "k": 10,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 75,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.113863573164362,
+        "lon": 72.9141267765793
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 76,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.280064471272,
+        "lon": 72.87089536986058
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 77,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.282480654817913,
+        "lon": 72.88487799689355
+      },
+      "k": 7,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1025,
+      "patch": {
+        "length": 962.0906531735882
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1143,
+      "patch": {
+        "length": 822.6296279289993
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1071,
+      "patch": {
+        "length": 561.6724536087954
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1020,
+      "patch": {
+        "length": 358.599932479908
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1045,
+      "patch": {
+        "length": 528.9008984426903
+      }
+    },
+    {
+      "id": 78,
+      "type": "shortest_path",
+      "source": 24,
+      "target": 2,
+      "mode": "time"
+    },
+    {
+      "type": "knn",
+      "id": 79,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.11571987337979,
+        "lon": 72.88002667168315
+      },
+      "k": 10,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 80,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.11308902800358,
+        "lon": 73.00643181315786
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 81,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.15035887394935,
+        "lon": 72.9000548873647
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 82,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.026051770821745,
+        "lon": 72.92044611081265
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 83,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.09465495069227,
+        "lon": 72.97183841310657
+      },
+      "k": 4,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 84,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.179576772811334,
+        "lon": 72.91071123549888
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 85,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.04320336740257,
+        "lon": 72.93469491408784
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 86,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.015201062687517,
+        "lon": 72.99084043486563
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 87,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.289421526058074,
+        "lon": 72.90148792426479
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 88,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.27568994166199,
+        "lon": 72.89526020149778
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1010,
+      "patch": {
+        "length": 292.5376169949369
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1050,
+      "patch": {
+        "length": 623.5868737687641
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1096,
+      "patch": {
+        "length": 689.9494737466757
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1043,
+      "patch": {
+        "length": 229.3074023068737
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1127,
+      "patch": {
+        "length": 872.4696389884566
+      }
+    },
+    {
+      "id": 89,
+      "type": "shortest_path",
+      "source": 19,
+      "target": 33,
+      "mode": "time"
+    },
+    {
+      "type": "knn",
+      "id": 90,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.245853410695524,
+        "lon": 72.98957722914959
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 91,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.09241103192134,
+        "lon": 72.8521027050222
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 92,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.067078924739157,
+        "lon": 72.93749497469291
+      },
+      "k": 9,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 93,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.05126655798831,
+        "lon": 72.9076568519478
+      },
+      "k": 9,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 94,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.175476557572953,
+        "lon": 72.9983326728938
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 95,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.056965373787072,
+        "lon": 72.92463174763317
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 96,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.046418277406,
+        "lon": 72.93513654825414
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 97,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.151079825713285,
+        "lon": 72.84674510567507
+      },
+      "k": 4,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 98,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.123580739792903,
+        "lon": 72.9879751628831
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 99,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.265615072383614,
+        "lon": 72.91934381109031
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1110,
+      "patch": {
+        "length": 891.23693740984
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1113,
+      "patch": {
+        "length": 185.40859887648767
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1050,
+      "patch": {
+        "length": 155.29925697540222
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1010,
+      "patch": {
+        "length": 520.1708812572208
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1146,
+      "patch": {
+        "length": 544.8677242699791
+      }
+    },
+    {
+      "id": 100,
+      "type": "shortest_path",
+      "source": 34,
+      "target": 31,
+      "mode": "time"
+    },
+    {
+      "type": "knn",
+      "id": 101,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.117160974269453,
+        "lon": 72.88211780826754
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 102,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.2514432155869,
+        "lon": 73.00054723976861
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 103,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.009687390274937,
+        "lon": 72.96330111647752
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 104,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.120197738816127,
+        "lon": 72.8692515436531
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 105,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.24972398033572,
+        "lon": 72.81503613750422
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 106,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.063953810053565,
+        "lon": 72.89864059739213
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 107,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.056408424541043,
+        "lon": 72.83481444573657
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 108,
+      "poi": "Park",
+      "query_point": {
+        "lat": 18.994058175088263,
+        "lon": 72.81169428666486
+      },
+      "k": 8,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 109,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.019853631316025,
+        "lon": 72.93854994655466
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 110,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.014633113612405,
+        "lon": 72.95666582125709
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1110,
+      "patch": {
+        "length": 991.1765243321911
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1039,
+      "patch": {
+        "length": 604.3639863721003
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1021,
+      "patch": {
+        "length": 721.2187947108015
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1099,
+      "patch": {
+        "length": 465.1327658823294
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1078,
+      "patch": {
+        "length": 868.2034659947808
+      }
+    },
+    {
+      "id": 111,
+      "type": "shortest_path",
+      "source": 2,
+      "target": 2,
+      "mode": "distance"
+    },
+    {
+      "type": "knn",
+      "id": 112,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.02819867374569,
+        "lon": 72.8803522687782
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 113,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.05883489622365,
+        "lon": 72.93506483667908
+      },
+      "k": 10,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 114,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.119182108508472,
+        "lon": 72.89311804878723
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 115,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.096952314642003,
+        "lon": 72.9165002977235
+      },
+      "k": 5,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 116,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.09964241581444,
+        "lon": 72.9829109516543
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 117,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.10458892648145,
+        "lon": 72.91672706680566
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 118,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.18866533005305,
+        "lon": 72.8249389894721
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 119,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.095193386521434,
+        "lon": 72.9832786550089
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 120,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.176013780371793,
+        "lon": 72.79701469273493
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 121,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.248989131824164,
+        "lon": 72.92095531780897
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1145,
+      "patch": {
+        "length": 452.288421667732
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1070,
+      "patch": {
+        "length": 291.3435669890554
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1094,
+      "patch": {
+        "length": 883.2358025916649
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1054,
+      "patch": {
+        "length": 507.7740084345672
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1090,
+      "patch": {
+        "length": 486.3448218287992
+      }
+    },
+    {
+      "id": 122,
+      "type": "shortest_path",
+      "source": 18,
+      "target": 11,
+      "mode": "distance",
+      "constraints": {
+        "forbidden_nodes": [
+          12,
+          30
+        ],
+        "forbidden_road_types": [
+          "expressway"
+        ]
+      }
+    },
+    {
+      "type": "knn",
+      "id": 123,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.170264199985574,
+        "lon": 72.79532104782666
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 124,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.105656867936528,
+        "lon": 72.98536054761281
+      },
+      "k": 4,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 125,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.11810701008547,
+        "lon": 72.8760454728107
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 126,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.29003327610475,
+        "lon": 72.88706869197215
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 127,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.255200526858413,
+        "lon": 73.00168843699177
+      },
+      "k": 8,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 128,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.277411038884882,
+        "lon": 72.88859464495368
+      },
+      "k": 7,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 129,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.173944699159833,
+        "lon": 72.9883678669413
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 130,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.26394541490189,
+        "lon": 72.9981450300665
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 131,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.17451671168113,
+        "lon": 72.83950186944405
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 132,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.181170748550148,
+        "lon": 73.00640809994668
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1129,
+      "patch": {
+        "length": 537.2704218767657
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1097,
+      "patch": {
+        "length": 128.278248480215
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1025,
+      "patch": {
+        "length": 638.9887081364201
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1012,
+      "patch": {
+        "length": 538.5168203663848
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1064,
+      "patch": {
+        "length": 140.35262242708433
+      }
+    },
+    {
+      "id": 133,
+      "type": "shortest_path",
+      "source": 40,
+      "target": 24,
+      "mode": "time"
+    },
+    {
+      "type": "knn",
+      "id": 134,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.002772062106846,
+        "lon": 72.82526777805077
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 135,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.11081430229638,
+        "lon": 72.872439551794
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 136,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.2759753906423,
+        "lon": 72.88157131757929
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 137,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.10265118615214,
+        "lon": 72.97553041650978
+      },
+      "k": 9,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 138,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.10358761346512,
+        "lon": 72.91809947889925
+      },
+      "k": 10,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 139,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.011506227437327,
+        "lon": 72.9635845648805
+      },
+      "k": 7,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 140,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.26271434143311,
+        "lon": 72.98936860615089
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 141,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.161587662975382,
+        "lon": 72.80949126613967
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 142,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.118858987282394,
+        "lon": 72.85572075710876
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 143,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.01818249289357,
+        "lon": 72.96551743184062
+      },
+      "k": 4,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1003,
+      "patch": {
+        "length": 957.7776300716926
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1051,
+      "patch": {
+        "length": 682.3261600486054
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1049,
+      "patch": {
+        "length": 266.90134322396386
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1032,
+      "patch": {
+        "length": 676.7386434198903
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1012,
+      "patch": {
+        "length": 337.05728282549455
+      }
+    },
+    {
+      "id": 144,
+      "type": "shortest_path",
+      "source": 47,
+      "target": 38,
+      "mode": "time"
+    },
+    {
+      "type": "knn",
+      "id": 145,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.08109541544726,
+        "lon": 72.84374552658711
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 146,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.109271750087988,
+        "lon": 73.00635379488104
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 147,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.251469240202255,
+        "lon": 72.94468338282351
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 148,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.000192792182347,
+        "lon": 72.95402115347952
+      },
+      "k": 6,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 149,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.052972522756523,
+        "lon": 72.91073674621526
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 150,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.00425890553973,
+        "lon": 72.82767138470409
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 151,
+      "poi": "Restaurant",
+      "query_point": {
+        "lat": 19.28259053295658,
+        "lon": 72.91009215805275
+      },
+      "k": 7,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 152,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.25488788336495,
+        "lon": 72.82016897638982
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 153,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.066352570871807,
+        "lon": 72.8494709153581
+      },
+      "k": 6,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 154,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.252923537026856,
+        "lon": 72.93661950336374
+      },
+      "k": 8,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1107,
+      "patch": {
+        "length": 861.7641918254219
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1068,
+      "patch": {
+        "length": 248.75344349024502
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1111,
+      "patch": {
+        "length": 885.2741352831155
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1084,
+      "patch": {
+        "length": 666.368198799547
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1117,
+      "patch": {
+        "length": 932.1724748797667
+      }
+    },
+    {
+      "id": 155,
+      "type": "shortest_path",
+      "source": 20,
+      "target": 10,
+      "mode": "time"
+    },
+    {
+      "type": "knn",
+      "id": 156,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.168123732157675,
+        "lon": 72.99107910093383
+      },
+      "k": 3,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 157,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.266484504858877,
+        "lon": 72.91795930078429
+      },
+      "k": 10,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 158,
+      "poi": "Hotel",
+      "query_point": {
+        "lat": 19.1175424842434,
+        "lon": 72.87402965129401
+      },
+      "k": 9,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 159,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.15764251886723,
+        "lon": 72.84152173741568
+      },
+      "k": 5,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 160,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.231240762832567,
+        "lon": 73.00364862598849
+      },
+      "k": 9,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 161,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.249745541575653,
+        "lon": 72.94831851797314
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 162,
+      "poi": "Mall",
+      "query_point": {
+        "lat": 19.00965273193878,
+        "lon": 72.95376258343354
+      },
+      "k": 8,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 163,
+      "poi": "School",
+      "query_point": {
+        "lat": 19.25515945811958,
+        "lon": 72.91241941498592
+      },
+      "k": 3,
+      "metric": "euclidean"
+    },
+    {
+      "type": "knn",
+      "id": 164,
+      "poi": "Hospital",
+      "query_point": {
+        "lat": 19.16882110807033,
+        "lon": 72.90225512123696
+      },
+      "k": 10,
+      "metric": "shortest_path"
+    },
+    {
+      "type": "knn",
+      "id": 165,
+      "poi": "Park",
+      "query_point": {
+        "lat": 19.260535841750045,
+        "lon": 72.94284692791058
+      },
+      "k": 8,
+      "metric": "euclidean"
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1076,
+      "patch": {
+        "length": 957.5160887500549
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1081,
+      "patch": {
+        "length": 537.8963219360644
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1041,
+      "patch": {
+        "length": 785.2993376928029
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1098,
+      "patch": {
+        "length": 782.309253814671
+      }
+    },
+    {
+      "type": "modify_edge",
+      "edge_id": 1029,
+      "patch": {
+        "length": 239.06246580784824
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "meta": { "id": "q_cycle" },
+  "events": [
+    {
+      "id": 1,
+      "type": "k_shortest_paths",
+      "source": 0,
+      "target": 3,
+      "k": 5
+    }
+  ]
+}
