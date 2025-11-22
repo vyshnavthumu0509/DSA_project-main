@@ -14,7 +14,7 @@ def generate_graph(num_nodes = 100, num_edges = 300, filename = "test_graph.json
     lat_min, lat_max = 19.0, 19.3
     lon_min, lon_max = 72.8, 73.0
 
-    pois_types = ["Restaurent", "Hospital", "School", "Mall", "Park", "Hotel"]
+    pois_types = ["restaurant", "petrol station", "hospital", "pharmacy", "hotel", "atm"]
     road_types = ["primary", "secondary", "tertiary", "local", "expressway"]
 
     nodes = []
@@ -235,7 +235,7 @@ def generate_graph(num_nodes = 100, num_edges = 300, filename = "test_graph.json
     lat_min, lat_max = 19.0, 19.3
     lon_min, lon_max = 72.8, 73.0
 
-    pois_types = ["Restaurent", "Hospital", "School", "Mall", "Park", "Hotel"]
+    pois_types = ["restaurant", "petrol station", "hospital", "pharmacy", "hotel", "atm"]
     road_types = ["primary", "secondary", "tertiary", "local", "expressway"]
 
     nodes = []
@@ -364,7 +364,7 @@ def generate_queries(graph, num_queries = 50, filename = "test_queries.json") :
 
     num_nodes = len(graph["nodes"])
     edge_ids = [e["id"] for e in graph["edges"]]
-    pois = ["Restaurant", "Hospital", "School", "Mall", "Park", "Hotel"]
+    pois = ["restaurant", "petrol station", "hospital", "pharmacy", "hotel", "atm"]
 
     events = []
     query_id = 1
