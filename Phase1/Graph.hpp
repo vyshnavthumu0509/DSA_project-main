@@ -36,11 +36,12 @@ struct Edge {
 class Graph {
 private:
     std::vector<Node> nodes;
-    std::unordered_map<int, Edge> edges; // edge_id -> Edge
     std::unordered_map<int, std::vector<int>> adj_list; // node_id -> list of edge_ids
     std::unordered_map<int, int> node_id_to_index;
     
 public:
+    std::unordered_map<int, Edge> edges; // edge_id -> Edge
+
     void addNode(const Node& node);
     void addEdge(const Edge& edge);
     void removeEdge(int edge_id);

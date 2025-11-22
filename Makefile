@@ -1,46 +1,43 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -O2 -g
 INCLUDES = -I./Phase1
-LIBS = 
 
 # --- Directory Definitions ---
 PHASE1_DIR = Phase1
 
-# Core logic (Graph and Algorithm are still needed)
-CORE_SRC = $(PHASE1_DIR)/Graph.cpp \
-           $(PHASE1_DIR)/Algorithm.cpp
-CORE_OBJ = $(CORE_SRC:.cpp=.o)
+# Sources: main.cpp, Graph.cpp, and Algorithm.cpp are all inside Phase1/
+PHASE1_SRC = $(PHASE1_DIR)/main.cpp \
+             $(PHASE1_DIR)/Graph.cpp \
+             $(PHASE1_DIR)/Algorithm.cpp
 
-# Sample Driver Definitions
-SAMPLE_DRIVER_SRC = sampledriver.cpp
-SAMPLE_DRIVER_OBJ = sampledriver.o
-SAMPLE_TARGET = sampledriver
+# Generate object file names (.o) from source file names (.cpp)
+PHASE1_OBJ = $(PHASE1_SRC:.cpp=.o)
+
+# The final executable name
+PHASE1_TARGET = phase1
 
 # --- Targets ---
-.PHONY: all clean sampledriver
+.PHONY: all clean
 
-# Default target: Only builds sampledriver
-all: sampledriver
+# Default target
+all: phase1
 
-$(SAMPLE_TARGET): $(CORE_OBJ) $(SAMPLE_DRIVER_OBJ)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $(SAMPLE_DRIVER_OBJ) $(CORE_OBJ) $(LIBS)
-	@echo "Sample Driver built successfully!"
-	@echo "Usage: ./sampledriver <graph.json> <queries.json> <output.json>"
+# Target to build the phase1 executable
+phase1: $(PHASE1_OBJ)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $(PHASE1_TARGET) $(PHASE1_OBJ)
+	@echo "Build successful! Executable '$(PHASE1_TARGET)' created."
+	@echo "Usage: ./$(PHASE1_TARGET) <graph.json> <queries.json> <output.json>"
 
 # --- Compilation Rules ---
 
-# Compile object files in Phase1 directory (Graph.cpp, Algorithm.cpp)
+# Generic rule to compile .cpp files in Phase1 directory to .o files
 $(PHASE1_DIR)/%.o: $(PHASE1_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
-
-# Compile sampledriver.cpp (located in root)
-$(SAMPLE_DRIVER_OBJ): $(SAMPLE_DRIVER_SRC)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # --- Utilities ---
 
 clean:
-	rm -f $(CORE_OBJ) $(SAMPLE_DRIVER_OBJ)
-	rm -f $(SAMPLE_TARGET)
+	rm -f $(PHASE1_DIR)/*.o
+	rm -f $(PHASE1_TARGET)
 	rm -f output.json
 	@echo "Clean complete!"

@@ -22,22 +22,24 @@ PathResult Algorithms:: shortestPathDistance(
         if(!src_node || !dst_node) return result;
         std::unordered_map<int,double>dist;
         std::unordered_map<int,int> parent;
+        std::unordered_map<int, double> f_score;
         std::priority_queue<std::pair<double,int>,std::vector<std::pair<double,int>>,std::greater<>> pq;
          dist[src]=0.0;//push src,and make its distance 0;
-        double d_start=graph.euclideanDistance(src_node->lat,src_node->lon,dst_node->lat,dst_node->lon);
-        pq.push({0.0+d_start,src});
+         double d_start=graph.euclideanDistance(src_node->lat,src_node->lon,dst_node->lat,dst_node->lon);
+        f_score[src]=d_start;
+         pq.push({0.0+d_start,src});
          while(!pq.empty()){
             double d=pq.top().first;
             int u=pq.top().second;
             pq.pop();
             if(u==dst) break;
-            if(dist.count(u) && d > dist[u]) continue;
+            if(f_score.count(u) && d > f_score[u]) continue;
             for(int edge_id:graph.getAdjacentEdges(u)){
                 const Edge *e=graph.getEdge(edge_id);
                 if(!e || e->is_removed)continue;
                 if(!constrains.forbidden_road_types.empty() && constrains.forbidden_road_types.count(e->road_type))continue;
                 int v=(e->u==u)?e->v:e->u;
-                if(e->oneway && e->v !=v)continue;
+                if(e->oneway && e->u!=u)continue;
                 if(constrains.forbidden_nodes.count(v))continue;
                 double new_dist=dist[u]+e->length;
                 if(!dist.count(v) || new_dist<dist[v]){
@@ -45,10 +47,12 @@ PathResult Algorithms:: shortestPathDistance(
                     parent[v]=u;
                     const Node * n_v=graph.getNode(v);
                     double h=graph.euclideanDistance(n_v->lat,n_v->lon,dst_node->lat,dst_node->lon);
-                    pq.push({new_dist+h,v});
+                    double f=new_dist+h;
+                        f_score[v]=f;
+                        pq.push({f,v});
+                    }
 
                 }
-            }
         }
             if(!dist.count(dst))return result;
             if(dst!=src && !parent.count(dst))return result;
@@ -66,7 +70,15 @@ PathResult Algorithms:: shortestPathDistance(
             result.path=path;
             return result;
         }
-
+    double Algorithms::speed(const Graph&graph){
+        double m=-INFINITY;
+        for(auto i:graph.edges){
+            for(auto j:i.second.speed_profile){
+                m=std::max(j,m);
+            }
+        }
+        return m;
+    }
 
     PathResult Algorithms:: shortestPathTime(const Graph&graph,int src,int dst,const Constraints&constrains){
         //initiate
@@ -76,22 +88,27 @@ PathResult Algorithms:: shortestPathDistance(
         if(constrains.forbidden_nodes.count(src)|| constrains.forbidden_nodes.count(dst) ){
             return result;
         }
+        double MAX_SPEED= speed(graph);
         const Node* src_node=graph.getNode(src);
         const Node * dst_node=graph.getNode(dst);
         if(!src_node || !dst_node) return result;
         std::unordered_map<int,double>time;
         std::unordered_map<int,int> parent;
+         std::unordered_map<int, double> f_score;
+        
         std::priority_queue<std::pair<double,int>,std::vector<std::pair<double,int>>,std::greater<>> pq;
          time[src]=0.0;//push src,and make its distance 0;
         double d_start=graph.euclideanDistance(src_node->lat,src_node->lon,dst_node->lat,dst_node->lon);
+        f_score[src]=d_start;
         pq.push({0.0+d_start,src});
          while(!pq.empty()){
             double d=pq.top().first;
             int u=pq.top().second;
             pq.pop();
             if(u==dst) break;
-            double u_to_dst=graph.euclideanDistance(graph.getNode(u)->lat,graph.getNode(u)->lon,dst_node->lat,dst_node->lon);
-            if(time.count(u) && d-u_to_dst>time[u])continue;
+            if(f_score.count(u) && d>f_score[u])continue;
+            // double u_to_dst=graph.euclideanDistance(graph.getNode(u)->lat,graph.getNode(u)->lon,dst_node->lat,dst_node->lon);
+            // if(time.count(u) && d-u_to_dst>time[u])continue;
             for(int edge_id:graph.getAdjacentEdges(u)){
                 const Edge *e=graph.getEdge(edge_id);
 
@@ -100,7 +117,7 @@ PathResult Algorithms:: shortestPathDistance(
                 if(!constrains.forbidden_road_types.empty() && constrains.forbidden_road_types.count(e->road_type))continue;
                
                 int v=(e->u==u)?e->v:e->u;
-                if(e->oneway && e->v !=v)continue;
+                if(e->oneway && e->u !=u)continue;
                 if(constrains.forbidden_nodes.count(v))continue;
 
                 double edge_time = graph.getEdgeTime(edge_id, time[u]);
@@ -109,8 +126,10 @@ PathResult Algorithms:: shortestPathDistance(
                     time[v]=new_time;
                     parent[v]=u;
                     const Node * n_v=graph.getNode(v);
-                    double h=graph.euclideanDistance(n_v->lat,n_v->lon,dst_node->lat,dst_node->lon);
-                    pq.push({new_time+h,v});
+                    double h=graph.euclideanDistance(n_v->lat,n_v->lon,dst_node->lat,dst_node->lon)/MAX_SPEED;
+                    double new_f=new_time+h;
+                    f_score[v]=new_f;
+                    pq.push({new_f,v});
 
                 }
             }
@@ -131,7 +150,8 @@ PathResult Algorithms:: shortestPathDistance(
             result.path=path;
             return result;
         }
-    int Algorithms::findNearestNode(const Graph&graph, double lat,double lon){
+
+int Algorithms::findNearestNode(const Graph&graph, double lat,double lon){
         int nearest=-1;
         double min_dist=INT_MAX;
         for(const Node &node:graph.getNodes()){
@@ -171,68 +191,68 @@ std::vector<int> Algorithms::knnEuclidean(const Graph &graph,double query_lat,do
             return result;
     }
 
- std::vector<int> Algorithms::knnShortestPath(const Graph& graph, double query_lat, double query_lon, const std::string& poi_type, int k) {
-    // 1. Find start node
-    int start_node = findNearestNode(graph, query_lat, query_lon);
-    if (start_node == -1) return {};
-
-    // 2. Setup Dijkstra
-    // Initialize with Infinity
-    std::vector<double> dist(graph.getNodes().size(), std::numeric_limits<double>::max());
+std::vector<int> Algorithms::knnShortestPath(const Graph &graph, double query_lat, double query_lon, const std::string &poi_type, int k) {
+    std::vector<int> result;
     
+    // 1. Find the starting node on the road network
+    int start_node = findNearestNode(graph, query_lat, query_lon);
+    if (start_node == -1) return result;
+
+    // 2. Standard Dijkstra Initialization
+    // Min-priority queue: {distance, node_id}
     std::priority_queue<std::pair<double, int>, 
                         std::vector<std::pair<double, int>>, 
                         std::greater<std::pair<double, int>>> pq;
-
+    
+    std::unordered_map<int, double> dist;
+    
     dist[start_node] = 0.0;
     pq.push({0.0, start_node});
 
-    std::vector<int> result;
-
-    // 3. Run Dijkstra with Early Exit
+    // 3. Search Loop
     while (!pq.empty()) {
         double d = pq.top().first;
         int u = pq.top().second;
         pq.pop();
 
-        // Standard Dijkstra check: if we found a shorter way before, skip
-        if (d > dist[u]) continue;
+        // Stale node check
+        if (dist.count(u) && d > dist[u]) continue;
 
-        // --- OPTIMIZATION START ---
-        // Check if current node 'u' is the POI we need.
-        // Since Dijkstra visits nodes in strictly increasing order of distance,
-        // the first 'k' POIs we find are GUARANTEED to be the closest 'k'.
-        const Node& u_node = graph.getNodes()[u]; // Assuming efficient access
-        bool is_target_poi = false;
-        
-        // Check the POI string vector
-        for (const auto& type : u_node.pois) {
-            if (type == poi_type) {
-                is_target_poi = true;
-                break;
+        // --- CHECK FOR POI ---
+        // Since Dijkstra expands in strict order of distance, 
+        // the first 'k' POIs we encounter are guaranteed to be the nearest.
+        const Node* u_node = graph.getNode(u);
+        if (u_node) {
+            bool found_poi = false;
+            for (const auto& poi : u_node->pois) {
+                if (poi == poi_type) {
+                    found_poi = true;
+                    break;
+                }
+            }
+            if (found_poi) {
+                result.push_back(u);
+                // OPTIMIZATION: Early exit once we have k results
+                if (result.size() == (size_t)k) return result;
             }
         }
 
-        if (is_target_poi) {
-            result.push_back(u);
-            // If we have found k items, WE STOP IMMEDIATELY.
-            // No need to search the rest of the graph.
-            if (result.size() == k) {
-                return result;
-            }
-        }
-
-        // Expand neighbors
+        // --- EXPAND NEIGHBORS ---
         for (int edge_id : graph.getAdjacentEdges(u)) {
             const Edge* e = graph.getEdge(edge_id);
+            
+            // 1. Check if edge exists and is not removed
             if (!e || e->is_removed) continue;
 
+            // 2. Check dynamic one-way constraint
+            // If modifyEdge changed oneway status, adj_list might still have the back-link.
+            // We must ensure we are at the 'u' side if it is one-way.
+            if (e->oneway && e->u != u) continue;
+
             int v = (e->u == u) ? e->v : e->u;
-            if (e->oneway && e->v != v) continue;
+            double new_dist = d + e->length;
 
-            double new_dist = dist[u] + e->length;
-
-            if (new_dist < dist[v]) {
+            if (dist.find(v) == dist.end() || new_dist < dist[v]) {
                 dist[v] = new_dist;
                 pq.push({new_dist, v});
             }

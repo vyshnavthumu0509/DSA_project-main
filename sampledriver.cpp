@@ -8,8 +8,7 @@
 #include "Graph.hpp"
 #include "Algorithm.hpp"
 
-using json = nlohmann::json;
-
+using json = nlohmann::ordered_json; // Preserves insertion order
 // --- Helper function to handle individual queries ---
 json process_query(Graph& graph, const json& query) {
     if (!query.is_object()) return json::object();
@@ -74,11 +73,17 @@ json process_query(Graph& graph, const json& query) {
         response["nodes"] = nodes;
 
     } else if (type == "remove_edge") {
+        // UPDATE: Include ID in response [cite: 216]
+        if (query.contains("id")) response["id"] = query["id"];
+        
         int edge_id = query["edge_id"];
         graph.removeEdge(edge_id);
         response["done"] = true;
 
     } else if (type == "modify_edge") {
+        // UPDATE: Include ID in response [cite: 233]
+        if (query.contains("id")) response["id"] = query["id"];
+
         int edge_id = query["edge_id"];
         Edge patch;
         if (query.contains("patch")) {
@@ -98,7 +103,6 @@ json process_query(Graph& graph, const json& query) {
 }
 
 int main(int argc, char* argv[]) {
-    // UPDATE: Now accepts 3 arguments (argc == 4)
     if (argc != 4) {
         std::cerr << "Usage: " << argv[0] << " <graph.json> <queries.json> <output.json>" << std::endl;
         return 1;
@@ -106,7 +110,7 @@ int main(int argc, char* argv[]) {
 
     std::string graph_path = argv[1];
     std::string queries_path = argv[2];
-    std::string output_path = argv[3]; // UPDATE: Get output path from args
+    std::string output_path = argv[3];
 
     // 1. Read graph
     std::ifstream graph_file(graph_path);
@@ -159,12 +163,20 @@ int main(int argc, char* argv[]) {
     queries_file >> queries_json;
     queries_file.close();
 
-    // 3. Open Output File (UPDATE: Using command line arg)
+    // 3. Prepare Output Structure
     std::ofstream output_file(output_path);
     if (!output_file.is_open()) {
         std::cerr << "Failed to open output file: " << output_path << std::endl;
         return 1;
     }
+
+    // UPDATE: Create the root JSON object for output
+    json final_output;
+    // Copy meta from input to output [cite: 204]
+    if (queries_json.contains("meta")) {
+        final_output["meta"] = queries_json["meta"];
+    }
+    json results_array = json::array();
 
     // 4. Determine Query List
     const json* queries_list = nullptr;
@@ -180,14 +192,27 @@ int main(int argc, char* argv[]) {
     // 5. Process
     for (const auto& query : *queries_list) {
         auto start_time = std::chrono::high_resolution_clock::now();
-        json result = process_query(graph, query);
         
-        if (!result.empty()) {
-            auto end_time = std::chrono::high_resolution_clock::now();
-            result["processing_time"] = std::chrono::duration<double, std::milli>(end_time - start_time).count();
-            output_file << result.dump(4) << '\n';
+        // UPDATE: Wrap in try-catch to prevent crashes [cite: 423]
+        try {
+            json result = process_query(graph, query);
+            
+            if (!result.empty()) {
+                auto end_time = std::chrono::high_resolution_clock::now();
+                result["processing_time"] = std::chrono::duration<double, std::milli>(end_time - start_time).count();
+                
+                // UPDATE: Append to results array instead of writing directly
+                results_array.push_back(result);
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Error processing query: " << e.what() << std::endl;
+            // Optionally add an error entry to results if desired, or skip
         }
     }
+
+    // UPDATE: Write the final single JSON object [cite: 196, 200]
+    final_output["results"] = results_array;
+    output_file << final_output.dump(4); // Pretty print with indentation 4
 
     output_file.close();
     return 0;

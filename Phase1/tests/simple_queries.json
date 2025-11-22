@@ -50,17 +50,19 @@
       "metric": "shortest_path"
     },
     {
+      "id":6,
       "type": "remove_edge",
       "edge_id": 1005
     },
     {
       "type": "shortest_path",
-      "id": 6,
+      "id": 7,
       "source": 0,
       "target": 2,
       "mode": "distance"
     },
     {
+      "id":8,
       "type": "modify_edge",
       "edge_id": 1005,
       "patch": {
@@ -69,7 +71,7 @@
     },
     {
       "type": "shortest_path",
-      "id": 7,
+      "id": 9,
       "source": 0,
       "target": 2,
       "mode": "distance"

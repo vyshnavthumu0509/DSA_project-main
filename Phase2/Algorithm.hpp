@@ -38,8 +38,19 @@ class Yen{
     std::vector<path> findK_paths(int start,int end,int k);
 
 };
+struct PathResult {
+    std::vector<int> path; // sequence of Node IDs
+    double length;         // total length in meters
+};
 
-class Heuristic{
+// Struct for Task 3 results
+struct ApproxResult {
+    int source;
+    int target;
+    double distance;
+};
+
+class Algorithm {
 
 public:
 
@@ -51,6 +62,13 @@ public:
         double overlap_threshold_pct
     );
 
+    static void precomputeLandmarks(const Graph& graph);
+
+        static double approximateShortestPathDistance(
+        const Graph& graph, 
+        int source_id, 
+        int target_id
+    );
 private:
     // Internal helper: Dijkstra's algorithm that accepts dynamic edge penalties
     static bool getShortestPathWithPenalty(
@@ -60,4 +78,9 @@ private:
         const std::unordered_map<int, double>& edge_penalties,
         path& result
     );
+
+    static std::vector<std::vector<double>> landmarks_to_nodes; // dist[L_idx][node_idx]
+    static std::vector<std::vector<double>> nodes_to_landmarks; // dist[node_idx][L_idx]
+    static std::vector<int> landmark_indices;
+    static bool is_precomputed;
 };
