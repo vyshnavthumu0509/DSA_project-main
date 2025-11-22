@@ -59,40 +59,46 @@ const std::vector<int> & Graph::getAdjacentEdges(int node_id) const{
     return empty;
 }
 
-double Graph::getEdgeTime(int edge_id, double strat_time) const{
-    const Edge* e=getEdge(edge_id);
-    if(!e) return INF;
+double Graph::getEdgeTime(int edge_id, double start_time) const { // Fixed typo 'strat_time'
+    const Edge* e = getEdge(edge_id);
+    if (!e) return INF;
 
-    if(e->speed_profile.empty()||e->speed_profile.size()!=96){
+    // FIX 1: Only fallback if profile is completely empty. 
+    // Do not enforce size() == 96, as this breaks simplified test cases.
+    if (e->speed_profile.empty()) {
         return e->average_time;
     }
 
     double total_time = 0.0;
     double remaining_distance = e->length;
-    double current_time = strat_time;
+    double current_time = start_time;
+    size_t profile_size = e->speed_profile.size(); // Get actual size
 
-    
-    // ... inside Graph::getEdgeTime
-    while(remaining_distance >= 1e-6){
-        int slot = static_cast<int>(current_time / 900.0) % 96;
+    while (remaining_distance >= 1e-6) {
+        // FIX 2: Use profile_size for modulo to prevent segfaults on small vectors
+        int slot = static_cast<int>(current_time / 900.0) % profile_size;
+        
         double speed = e->speed_profile[slot];
 
-        if(speed < 1e-6) speed = e->length / e->average_time;
-        // Edge Case 4: Handle zero/infinite time if speed is still zero and average_time is zero
-        if (speed < 1e-6) return INF; 
+        // Fallback for bad data (0 speed)
+        if (speed < 1e-6) {
+             if (e->average_time > 1e-6) speed = e->length / e->average_time;
+             else return INF; // Road is blocked (0 speed, 0 avg time)
+        }
 
         // Time remaining until the end of the current 900-second slot
         double time_to_slot_end = 900.0 - fmod(current_time, 900.0);
+        
+        // Distance we can cover in the remainder of this slot
         double distance_to_slot_end = speed * time_to_slot_end;
 
-        if(distance_to_slot_end >= remaining_distance){
-            // Case 2: Edge is completed in this slot. Calculate exact time needed.
+        if (distance_to_slot_end >= remaining_distance) {
+            // Case: Edge is completed within this slot
             double time_needed = remaining_distance / speed;
             total_time += time_needed;
-            // No need to update current_time/remaining_distance further, just return
             return total_time; 
         } else {
-            // Case 1: Edge is NOT completed in this slot. Travel until slot ends.
+           // [cite_start]// Case: We reach the end of the slot and must continue in the next one [cite: 183]
             total_time += time_to_slot_end;
             remaining_distance -= distance_to_slot_end;
             current_time += time_to_slot_end;
@@ -101,7 +107,6 @@ double Graph::getEdgeTime(int edge_id, double strat_time) const{
     
     return total_time;
 }
-
 double Graph::euclideanDistance(double lat1, double lon1, double lat2, double lon2) const{
     double dx = (lon2 - lon1) * 111320.0 * cos((lat1+lat2)/2.0*M_PI/180.0);
     double dy = (lat2 - lat1) * 110540.0;

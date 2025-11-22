@@ -80,77 +80,82 @@ PathResult Algorithms:: shortestPathDistance(
         return m;
     }
 
-    PathResult Algorithms:: shortestPathTime(const Graph&graph,int src,int dst,const Constraints&constrains){
-        //initiate
-        PathResult result;
-        result.possible=false;
-        result.cost=INF;
-        if(constrains.forbidden_nodes.count(src)|| constrains.forbidden_nodes.count(dst) ){
-            return result;
-        }
-        double MAX_SPEED= speed(graph);
-        const Node* src_node=graph.getNode(src);
-        const Node * dst_node=graph.getNode(dst);
-        if(!src_node || !dst_node) return result;
-        std::unordered_map<int,double>time;
-        std::unordered_map<int,int> parent;
-         std::unordered_map<int, double> f_score;
-        
-        std::priority_queue<std::pair<double,int>,std::vector<std::pair<double,int>>,std::greater<>> pq;
-         time[src]=0.0;//push src,and make its distance 0;
-        double d_start=graph.euclideanDistance(src_node->lat,src_node->lon,dst_node->lat,dst_node->lon);
-        f_score[src]=d_start;
-        pq.push({0.0+d_start,src});
-         while(!pq.empty()){
-            double d=pq.top().first;
-            int u=pq.top().second;
-            pq.pop();
-            if(u==dst) break;
-            if(f_score.count(u) && d>f_score[u])continue;
-            // double u_to_dst=graph.euclideanDistance(graph.getNode(u)->lat,graph.getNode(u)->lon,dst_node->lat,dst_node->lon);
-            // if(time.count(u) && d-u_to_dst>time[u])continue;
-            for(int edge_id:graph.getAdjacentEdges(u)){
-                const Edge *e=graph.getEdge(edge_id);
+PathResult Algorithms::shortestPathTime(
+    const Graph& graph,
+    int src,
+    int dst,
+    const Constraints& constrains)
+{
+    PathResult result;
+    result.possible = false;
+    result.cost = INF;
 
-                if(!e || e->is_removed)continue;
+    if (constrains.forbidden_nodes.count(src) || constrains.forbidden_nodes.count(dst)) {
+        return result;
+    }
 
-                if(!constrains.forbidden_road_types.empty() && constrains.forbidden_road_types.count(e->road_type))continue;
-               
-                int v=(e->u==u)?e->v:e->u;
-                if(e->oneway && e->u !=u)continue;
-                if(constrains.forbidden_nodes.count(v))continue;
+    const Node* src_node = graph.getNode(src);
+    const Node* dst_node = graph.getNode(dst);
+    if (!src_node || !dst_node) return result;
 
-                double edge_time = graph.getEdgeTime(edge_id, time[u]);
-                double new_time = time[u] + edge_time;
-                if(!time.count(v) || new_time<time[v]){
-                    time[v]=new_time;
-                    parent[v]=u;
-                    const Node * n_v=graph.getNode(v);
-                    double h=graph.euclideanDistance(n_v->lat,n_v->lon,dst_node->lat,dst_node->lon)/MAX_SPEED;
-                    double new_f=new_time+h;
-                    f_score[v]=new_f;
-                    pq.push({new_f,v});
+    std::unordered_map<int, double> time_map;
+    std::unordered_map<int, int> parent;
+    std::priority_queue<std::pair<double,int>,
+                        std::vector<std::pair<double,int>>,
+                        std::greater<>> pq;
 
-                }
+    time_map[src] = 0.0;
+    pq.push({0.0, src});
+
+    while (!pq.empty()) {
+        double t = pq.top().first;
+        int u = pq.top().second;
+        pq.pop();
+
+        if (u == dst) break;
+
+        if (time_map.count(u) && t > time_map[u]) continue;
+
+        for (int edge_id : graph.getAdjacentEdges(u)) {
+            const Edge* e = graph.getEdge(edge_id);
+            if (!e || e->is_removed) continue;
+
+            if (!constrains.forbidden_road_types.empty() &&
+                constrains.forbidden_road_types.count(e->road_type)) continue;
+
+            int v = (e->u == u) ? e->v : e->u;
+            if (e->oneway && e->u != u) continue;
+            if (constrains.forbidden_nodes.count(v)) continue;
+
+            double edge_time = graph.getEdgeTime(edge_id, time_map[u]);
+            double new_time = time_map[u] + edge_time;
+
+            if (!time_map.count(v) || new_time < time_map[v]) {
+                time_map[v] = new_time;
+                parent[v] = u;
+                pq.push({new_time, v});
             }
         }
-            if(!time.count(dst))return result;
-            if(dst!=src && !parent.count(dst))return result;
-            std::vector<int> path;
-            int cur=dst;
-            while(cur!=src){
-                if(!parent.count(cur))return result;
-                path.push_back(cur);
-                cur=parent[cur];
-            }
-            path.push_back(src);
-            std::reverse(path.begin(),path.end());
-            result.possible=true;
-            result.cost=time[dst];
-            result.path=path;
-            return result;
-        }
+    }
 
+    if (!time_map.count(dst)) return result;
+    if (dst != src && !parent.count(dst)) return result;
+
+    std::vector<int> path;
+    int cur = dst;
+    while (cur != src) {
+        if (!parent.count(cur)) return result;
+        path.push_back(cur);
+        cur = parent[cur];
+    }
+    path.push_back(src);
+    std::reverse(path.begin(), path.end());
+
+    result.possible = true;
+    result.cost = time_map[dst];
+    result.path = path;
+    return result;
+}
 int Algorithms::findNearestNode(const Graph&graph, double lat,double lon){
         int nearest=-1;
         double min_dist=INT_MAX;

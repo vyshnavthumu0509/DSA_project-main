@@ -1,0 +1,21 @@
+{
+    "assignments": [
+        {
+            "driver_id": 0,
+            "order_ids": [
+                101,
+                102
+            ],
+            "route": [
+                0,
+                1,
+                2,
+                3,
+                0
+            ]
+        }
+    ],
+    "metrics": {
+        "total_delivery_time_s": 80.0
+    }
+}
